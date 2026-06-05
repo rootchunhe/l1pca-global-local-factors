@@ -1,0 +1,7 @@
+* text=auto
+
+# Disable diff for binary / large files
+*.ipynb -diff
+*.pdf -diff
+*.png -diff
+*.jpg -diff

@@ -1,0 +1,86 @@
+# Ignore everything by default
+*
+
+# Allow git files
+!.gitignore
+!.gitattributes
+!README.md
+
+# -------------------------
+# Allow project folders
+# -------------------------
+!Codes/
+!Codes/**
+
+# to be added later
+# !Paper/
+# !Paper/**
+
+# -------------------------
+# Python
+# -------------------------
+Codes/__pycache__/
+Codes/*.pyc
+Codes/**/*.pyc
+Codes/*.pyo
+Codes/*.pyd
+
+# Secrets
+.env
+.env.*
+Codes/.env
+
+# Python environments
+venv/
+.env/
+
+# Claude Code session data
+.claude/
+
+# -------------------------
+# Jupyter
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# LaTeX temporary files
+# -------------------------
+Paper/*.aux
+Paper/*.log
+Paper/*.out
+Paper/*.toc
+Paper/*.synctex.gz
+Paper/*.fls
+Paper/*.fdb_latexmk
+Paper/*.bbl
+Paper/*.blg
+Paper/*.nav
+Paper/*.snm
+Paper/*.vrb
+Paper/*.xdv
+
+# latexmk
+Paper/latexmkrc
+
+# -------------------------
+# LaTeX editor history
+# -------------------------
+.history/
+Paper/.history/
+
+# -------------------------
+# macOS
+# -------------------------
+.DS_Store
+
+# -------------------------
+# VSCode
+# -------------------------
+.vscode/
+
+# -------------------------
+# Misc
+# -------------------------
+*.tmp
+*.swp
+*.bak
