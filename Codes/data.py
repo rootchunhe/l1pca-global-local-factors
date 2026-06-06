@@ -422,10 +422,8 @@ def get_crsp_daily_returns(start_year=2006, end_year=2025):
     daily.loc[bad_ret, ["ret", "intraday_ret", "overnight_ret"]] = np.nan
 
     daily = daily.sort_values(["permno", "date"]).reset_index(drop=True)
-    # Drop the first observation per permno: intraday/overnight returns are derived from
-    # dlyprc/dlyopen and the prior close, so on the first day in sample they may be
-    # contaminated by IPO/listing-day pricing. Use cumcount instead of groupby.apply
-    # (apply strips grouping columns under newer pandas versions).
+    # Drop each permno's first in-window row: its overnight (close-to-open) return
+    # references a prior close that lies outside the panel window.
     daily = daily[daily.groupby("permno").cumcount() > 0].reset_index(drop=True)
     daily = daily.groupby(["permno", "date"], as_index=False).first()
 
@@ -787,9 +785,7 @@ def get_fret_ym(ym_str, files_for_ym, ym_map_5, ym_map_30=None):
         if save_30:
             # Derive 30-min from 5-min in-place: rolling-6 sum on the 5-min bars.
             # For each kept 30-min bar (10:30+), the rolling window only consumes
-            # 5-min bars at 10:05+, so it doesn't depend on the "09:35" padding bar
-            # — bit-identical to the previous two-step pipeline that cached daily
-            # 30-min csvs in Data/fRet30min/.
+            # 5-min bars at 10:05+, so it doesn't depend on the "09:35" padding bar.
             df30 = df5[["sym_root", "sym_suffix"]].copy()
             df30[bar_cols_5] = df5[bar_cols_5].T.rolling(window=6).sum().T
             present_30 = [c for c in bar_cols_30 if c in df30.columns]

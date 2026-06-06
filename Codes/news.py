@@ -91,10 +91,8 @@ def plot_news_intensity_by_beta(events, betas, min_relevance=75):
     bottom_groups = [g for g in _SIZE_GRP_ORDER if g != "mega"]
     xt = ["Low", "2", "3", "4", "5", "6", "7", "8", "9", "High"]
 
-    # 4 measure-units (mega thin top + others tall bottom) laid out 2x2.
-    # Rows: mega1 / others1 / SPACER(empty) / mega2 / others2.
-    # GAP_SMALL: within-measure mega<->others gap (rows 0-1 and 3-4), set by hspace -> small.
-    # SPACER:    height of the empty row between the two measures -> the "normal" between gap.
+    # 2x2 layout: each measure is a thin mega row over a tall others row.
+    # GAP_SMALL = within-measure gap; SPACER = empty row between measure blocks.
     GAP_SMALL, SPACER = 0.05, 0.8
     fig = plt.figure(figsize=(20, 12))
     gs = fig.add_gridspec(5, 2, height_ratios=[1, 3, SPACER, 1, 3],

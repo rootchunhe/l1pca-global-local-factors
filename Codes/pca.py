@@ -606,7 +606,6 @@ def get_PCA_results(ym, n=N_BARS_PER_DAY, kn=KN):
             disps_rg, disps_rg_xs = get_sBeta_disp(Rg, dSTK, T, kn)
             eta_vr_res = get_eta_and_variance_ratio(dSPY, Rg, T, kn)
 
-            # cBetaRg in daily-CAPM-β units; cBetaMKTg/LNF in SPY units (sum = cBetaSPY).
             ResultTable["cBetaRg"] = get_rBetas(Rg, dSTK)
             ResultTable["cBetaMKTg"] = get_rBetas(dMKTg, dSTK)
             ResultTable["cBetaLNF"] = get_rBetas(dSPY - dMKTg, dSTK)
