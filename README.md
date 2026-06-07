@@ -8,8 +8,8 @@ The value-weighted market return mechanically aggregates two distinct sources of
 
 In the code:
 
-- `Rg` denotes the unscaled global factor, defined as the value-weighted return of stocks in the lowest decile of $|\widehat{\gamma}_{i,t}|$, where $\widehat{\gamma}_{i,t}$ is each stock's proxy for aggregate exposure to local factors. It is constructed in two stages: $\ell_1$-rotated high-frequency PCA on the S&P 500, then realized-beta estimation over the broader liquid cross section. See Section 3.2 of the paper for detail.
-- `MKTg` denotes the global component of the value-weighted market return, equal to $\widehat{\phi}\cdot R_g$, where $\widehat{\phi}$ is the projection coefficient of the market on $R_g$; by construction, $\text{vwMKT} = \text{MKTg} + \text{LNF}$.
+- `Rg` denotes the unscaled global factor, defined as the value-weighted return of stocks in the lowest decile of $|\hat{\gamma}_{i,t}|$, where $\hat{\gamma}_{i,t}$ is each stock's proxy for aggregate exposure to local factors. It is constructed in two stages: $\ell_1$-rotated high-frequency PCA on the S&P 500, then realized-beta estimation over the broader liquid cross section. See Section 3.2 of the paper for detail.
+- `MKTg` denotes the global component of the value-weighted market return, equal to $\hat{\phi}\cdot R_g$, where $\hat{\phi}$ is the projection coefficient of the market on $R_g$; by construction, $\text{vwMKT} = \text{MKTg} + \text{LNF}$.
 - `LNF` denotes the residual component of the value-weighted market return orthogonal to the global factor, namely the local news factor.
 
 The main empirical applications in the code are:
@@ -70,8 +70,8 @@ The empirical workflow follows the paper closely:
 
 1. Build monthly high-frequency return panels for eligible S&P 500 stocks (5-minute) and the broader liquid cross section (30-minute).
 2. Run PCA within each month on the 5-minute S&P 500 panel.
-3. Apply the $\ell_1$-rotation to identify local factor loadings; aggregate row-wise to a stock-level local-exposure proxy `news_proxy` ($\widehat{\gamma}_{i,t}^{(0)}$ in the paper).
-4. Form the initial global-factor proxy $g_t^{(0)}$ as the equal-weighted return of S&P 500 stocks in the lowest quintile of `news_proxy`. Construct the initial LNF as $\text{LNF}_t^{(0)} = r_{\text{vwMKT},t} - \kappa\,\widehat{\phi}_t^{(0)}\,g_t^{(0)}$, where $\widehat{\phi}_t^{(0)}$ is the high-frequency projection coefficient of vwMKT on $g_t^{(0)}$ and $\kappa=0.8$ is a shrinkage parameter (set below one because $g_t^{(0)}$ is recovered on a narrower universe and the downstream realized exposures are themselves noisy; Appendix B and Table tab:robustness in the paper analyze the choice and report empirical sensitivity). Across the broader liquid cross section, $\widehat{\gamma}_{i,t}$ is each stock's 30-minute realized beta on $\text{LNF}_t^{(0)}$. The global factor $R_g$ is the value-weighted return of stocks in the lowest decile of $|\widehat{\gamma}_{i,t}|$.
+3. Apply the $\ell_1$-rotation to identify local factor loadings; aggregate row-wise to a stock-level local-exposure proxy `news_proxy` ($\hat{\gamma}_{i,t}^{(0)}$ in the paper).
+4. Form the initial global-factor proxy $g_t^{(0)}$ as the equal-weighted return of S&P 500 stocks in the lowest quintile of `news_proxy`. Construct the initial LNF as $\text{LNF}_t^{(0)} = r_{\text{vwMKT},t} - \kappa\,\hat{\phi}_t^{(0)}\,g_t^{(0)}$, where $\hat{\phi}_t^{(0)}$ is the high-frequency projection coefficient of vwMKT on $g_t^{(0)}$ and $\kappa=0.8$ is a shrinkage parameter (set below one because $g_t^{(0)}$ is recovered on a narrower universe and the downstream realized exposures are themselves noisy; Appendix B and Table tab:robustness in the paper analyze the choice and report empirical sensitivity). Across the broader liquid cross section, $\hat{\gamma}_{i,t}$ is each stock's 30-minute realized beta on $\text{LNF}_t^{(0)}$. The global factor $R_g$ is the value-weighted return of stocks in the lowest decile of $|\hat{\gamma}_{i,t}|$.
 5. Define `LNF` as the residual of the value-weighted market with respect to `MKTg`, where `MKTg` is the projection of vwMKT on `Rg`.
 6. Use these objects in SML, spanning, anomaly, and beta-shock exercises.
 
